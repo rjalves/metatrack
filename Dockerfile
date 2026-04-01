@@ -1,17 +1,17 @@
 # ─────────────────────────────────────────────
 # Stage 1: Build da aplicação React/Vite
 # ─────────────────────────────────────────────
-FROM node:20-alpine AS builder
+FROM oven/bun:1 AS builder
 
 WORKDIR /app
 
-# Copia os arquivos de dependências e instala
-COPY package*.json ./
-RUN npm ci
+# Copia os arquivos de dependências e instala com Bun
+COPY package.json bun.lock* ./
+RUN bun install --frozen-lockfile
 
 # Copia o restante do código-fonte e realiza o build
 COPY . .
-RUN npm run build
+RUN bun run build
 
 # ─────────────────────────────────────────────
 # Stage 2: Servir com Nginx
