@@ -21,8 +21,8 @@ FROM nginx:alpine AS runtime
 # Copia os arquivos gerados pelo build
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia a configuração customizada do Nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia a configuração customizada do Nginx (a partir do stage builder)
+COPY --from=builder /app/nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
